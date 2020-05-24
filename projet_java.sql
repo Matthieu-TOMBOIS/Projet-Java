@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  ven. 22 mai 2020 à 09:08
+-- Généré le :  Dim 24 mai 2020 à 14:43
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -33,7 +33,19 @@ CREATE TABLE IF NOT EXISTS `cours` (
   `ID_COURS` int(20) NOT NULL AUTO_INCREMENT,
   `NOM` text NOT NULL,
   PRIMARY KEY (`ID_COURS`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `cours`
+--
+
+INSERT INTO `cours` (`ID_COURS`, `NOM`) VALUES
+(1, 'STATISTIQUES'),
+(2, 'STATISTIQUES'),
+(3, 'POO JAVA'),
+(4, 'POO JAVA'),
+(5, 'THERMODYNAMIQUE'),
+(6, 'THERMODYNAMIQUE');
 
 -- --------------------------------------------------------
 
@@ -43,11 +55,23 @@ CREATE TABLE IF NOT EXISTS `cours` (
 
 DROP TABLE IF EXISTS `enseignant`;
 CREATE TABLE IF NOT EXISTS `enseignant` (
-  `ID_ENSEIGNANT` int(20) NOT NULL,
   `#ID_UTILISATEUR` int(20) NOT NULL,
   `#ID_COURS` int(20) NOT NULL,
-  PRIMARY KEY (`ID_ENSEIGNANT`,`#ID_UTILISATEUR`,`#ID_COURS`)
+  PRIMARY KEY (`#ID_UTILISATEUR`,`#ID_COURS`),
+  KEY `#ID_COURS` (`#ID_COURS`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `enseignant`
+--
+
+INSERT INTO `enseignant` (`#ID_UTILISATEUR`, `#ID_COURS`) VALUES
+(5, 1),
+(5, 2),
+(3, 3),
+(3, 4),
+(4, 5),
+(4, 6);
 
 -- --------------------------------------------------------
 
@@ -60,8 +84,27 @@ CREATE TABLE IF NOT EXISTS `etudiant` (
   `#ID_UTILISATEUR` int(20) NOT NULL AUTO_INCREMENT,
   `NUMERO` text NOT NULL,
   `#ID_GROUPE` int(20) NOT NULL,
-  PRIMARY KEY (`#ID_UTILISATEUR`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`#ID_UTILISATEUR`),
+  KEY `#ID_GROUPE` (`#ID_GROUPE`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `etudiant`
+--
+
+INSERT INTO `etudiant` (`#ID_UTILISATEUR`, `NUMERO`, `#ID_GROUPE`) VALUES
+(6, '1000', 1),
+(7, '1001', 1),
+(8, '1002', 2),
+(9, '1003', 2),
+(10, '1004', 3),
+(11, '1005', 3),
+(12, '1006', 4),
+(13, '1007', 4),
+(14, '1008', 5),
+(15, '1009', 5),
+(16, '1011', 6),
+(17, '1012', 6);
 
 -- --------------------------------------------------------
 
@@ -72,10 +115,23 @@ CREATE TABLE IF NOT EXISTS `etudiant` (
 DROP TABLE IF EXISTS `groupe`;
 CREATE TABLE IF NOT EXISTS `groupe` (
   `ID_GROUPE` int(20) NOT NULL AUTO_INCREMENT,
-  `NOM` int(11) NOT NULL,
+  `NOM` text NOT NULL,
   `#ID_PROMO` int(11) NOT NULL,
-  PRIMARY KEY (`ID_GROUPE`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`ID_GROUPE`),
+  KEY `#ID_PROMO` (`#ID_PROMO`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `groupe`
+--
+
+INSERT INTO `groupe` (`ID_GROUPE`, `NOM`, `#ID_PROMO`) VALUES
+(1, 'TD09', 1),
+(2, 'TD10', 1),
+(3, 'TD01', 2),
+(4, 'TD02', 2),
+(5, 'TD03', 3),
+(6, 'TD04', 3);
 
 -- --------------------------------------------------------
 
@@ -88,7 +144,16 @@ CREATE TABLE IF NOT EXISTS `promotion` (
   `ID_PROMO` int(20) NOT NULL AUTO_INCREMENT,
   `NOM` text NOT NULL,
   PRIMARY KEY (`ID_PROMO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `promotion`
+--
+
+INSERT INTO `promotion` (`ID_PROMO`, `NOM`) VALUES
+(1, 'PROMO 2022'),
+(2, 'PROMO 2023'),
+(3, 'PROMO 2024');
 
 -- --------------------------------------------------------
 
@@ -102,8 +167,25 @@ CREATE TABLE IF NOT EXISTS `salle` (
   `NOM` text NOT NULL,
   `CAPACITE` text NOT NULL,
   `#ID_SITE` int(20) NOT NULL,
-  PRIMARY KEY (`ID_SALLE`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`ID_SALLE`),
+  KEY `#ID_SITE` (`#ID_SITE`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `salle`
+--
+
+INSERT INTO `salle` (`ID_SALLE`, `NOM`, `CAPACITE`, `#ID_SITE`) VALUES
+(1, 'P101', '100 PLACES', 1),
+(2, 'P102', '100 PLACES', 1),
+(3, 'P201', '50 PLACES', 2),
+(4, 'P202', '50 PLACES', 2),
+(5, 'P301', '25 PLACES', 3),
+(6, 'P302', '25 PLACES', 3),
+(7, 'P401', '20 PLACES', 4),
+(8, 'P402', '20 PLACES', 4),
+(9, 'P501', '100 PLACES', 5),
+(10, 'P502', '100 PLACES', 5);
 
 -- --------------------------------------------------------
 
@@ -121,8 +203,22 @@ CREATE TABLE IF NOT EXISTS `seance` (
   `ETAT` text NOT NULL,
   `#ID_COURS` int(20) NOT NULL,
   `#ID_TYPE` int(20) NOT NULL,
-  PRIMARY KEY (`ID_SEANCE`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`ID_SEANCE`),
+  KEY `#ID_COURS` (`#ID_COURS`),
+  KEY `#ID_TYPE` (`#ID_TYPE`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `seance`
+--
+
+INSERT INTO `seance` (`ID_SEANCE`, `SEMAINE`, `DATE`, `HEURE_DEBUT`, `HEURE_FIN`, `ETAT`, `#ID_COURS`, `#ID_TYPE`) VALUES
+(1, '23', '2020-06-08', '10:15:00', '11:45:00', '2', 1, 3),
+(2, '23', '2020-06-08', '13:15:00', '14:45:00', '2', 3, 4),
+(3, '23', '2020-06-09', '10:15:00', '11:45:00', '2', 4, 4),
+(4, '23', '2020-06-09', '12:00:00', '13:45:00', '2', 2, 3),
+(5, '23', '2020-06-10', '13:15:00', '14:45:00', '1', 5, 3),
+(6, '23', '2020-06-10', '15:00:00', '16:30:00', '3', 6, 3);
 
 -- --------------------------------------------------------
 
@@ -134,8 +230,21 @@ DROP TABLE IF EXISTS `seance_enseignant`;
 CREATE TABLE IF NOT EXISTS `seance_enseignant` (
   `#ID_SEANCE` int(20) NOT NULL,
   `#ID_ENSEIGNANT` int(20) NOT NULL,
-  PRIMARY KEY (`#ID_SEANCE`,`#ID_ENSEIGNANT`)
+  PRIMARY KEY (`#ID_SEANCE`,`#ID_ENSEIGNANT`),
+  KEY `seance_enseignant_ibfk_1` (`#ID_ENSEIGNANT`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `seance_enseignant`
+--
+
+INSERT INTO `seance_enseignant` (`#ID_SEANCE`, `#ID_ENSEIGNANT`) VALUES
+(2, 3),
+(3, 3),
+(5, 4),
+(6, 4),
+(1, 5),
+(4, 5);
 
 -- --------------------------------------------------------
 
@@ -147,8 +256,21 @@ DROP TABLE IF EXISTS `seance_groupes`;
 CREATE TABLE IF NOT EXISTS `seance_groupes` (
   `#ID_SEANCE` int(20) NOT NULL,
   `#ID_GROUPE` int(20) NOT NULL,
-  PRIMARY KEY (`#ID_SEANCE`,`#ID_GROUPE`)
+  PRIMARY KEY (`#ID_SEANCE`,`#ID_GROUPE`),
+  KEY `#ID_GROUPE` (`#ID_GROUPE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `seance_groupes`
+--
+
+INSERT INTO `seance_groupes` (`#ID_SEANCE`, `#ID_GROUPE`) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6);
 
 -- --------------------------------------------------------
 
@@ -160,8 +282,21 @@ DROP TABLE IF EXISTS `seance_salles`;
 CREATE TABLE IF NOT EXISTS `seance_salles` (
   `#ID_SEANCE` int(20) NOT NULL,
   `#ID_SALLE` int(20) NOT NULL,
-  PRIMARY KEY (`#ID_SEANCE`,`#ID_SALLE`)
+  PRIMARY KEY (`#ID_SEANCE`,`#ID_SALLE`),
+  KEY `#ID_SALLE` (`#ID_SALLE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `seance_salles`
+--
+
+INSERT INTO `seance_salles` (`#ID_SEANCE`, `#ID_SALLE`) VALUES
+(1, 1),
+(2, 3),
+(3, 5),
+(4, 7),
+(5, 9),
+(6, 10);
 
 -- --------------------------------------------------------
 
@@ -174,7 +309,18 @@ CREATE TABLE IF NOT EXISTS `site` (
   `ID_SITE` int(20) NOT NULL AUTO_INCREMENT,
   `NOM` text NOT NULL,
   PRIMARY KEY (`ID_SITE`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `site`
+--
+
+INSERT INTO `site` (`ID_SITE`, `NOM`) VALUES
+(1, 'E1'),
+(2, 'E2'),
+(3, 'E3'),
+(4, 'E4'),
+(5, 'E5');
 
 -- --------------------------------------------------------
 
@@ -187,7 +333,20 @@ CREATE TABLE IF NOT EXISTS `type_cours` (
   `ID_TYPECRS` int(20) NOT NULL AUTO_INCREMENT,
   `NOM` text NOT NULL,
   PRIMARY KEY (`ID_TYPECRS`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `type_cours`
+--
+
+INSERT INTO `type_cours` (`ID_TYPECRS`, `NOM`) VALUES
+(1, 'CM'),
+(2, 'CI'),
+(3, 'TD'),
+(4, 'TP'),
+(5, 'PROJET'),
+(6, 'SOUTIEN'),
+(7, 'INFORMATIONS');
 
 -- --------------------------------------------------------
 
@@ -204,14 +363,88 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `PRENOM` text NOT NULL,
   `DROIT` text NOT NULL,
   PRIMARY KEY (`ID_UTILISATEUR`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`ID_UTILISATEUR`, `EMAIL`, `PASSWORD`, `NOM`, `PRENOM`, `DROIT`) VALUES
-(1, 'saycocie.wichawee@gmail.com', 'lolo', 'SAYCOCIE', 'WICHAWEE', '1');
+(1, 'admin@gmail.com', 'admin', 'ADMIN', 'X', '1'),
+(2, 'pedagogique@gmail.com', 'pedagogique', 'SEGADO', 'JEAN-PIERRE', '2'),
+(3, 'enseignant1@gmail.com', 'enseignant1', 'GUAN', 'HENRI', '3'),
+(4, 'enseignant2@gmail.com', 'enseignant2', 'RICHAUD', 'REMI', '3'),
+(5, 'enseignant3@gmail.com', 'enseignant3', 'CHAARI', 'ANIS', '3'),
+(6, 'etudiant1@gmail.com', 'etudiant1', 'SAYCOCIE', 'WICHAWEE', '4'),
+(7, 'etudiant2@gmail.com', 'etudiant2', 'DAMIER', 'ROMANCE', '4'),
+(8, 'etudiant3@gmail.com', 'etudiant3', 'TOMBOIS', 'MATTHIEU', '4'),
+(9, 'etudiant4@gmail.Com', 'etudiant4', 'BEGEY', 'NOEMIE', '4'),
+(10, 'etudiant5@gmail.com', 'etudiant5', 'DURAND', 'JEAN', '4'),
+(11, 'etudiant6@gmail.com', 'etudiant6', 'RICHARD', 'PIERRE', '4'),
+(12, 'etudiant7@gmail.com', 'etudiant7', 'ALCAIDE', 'LAURA', '4'),
+(13, 'etudiant8@gmail.com', 'etudiant8', 'ROYGENS', 'KILLIAN', '4'),
+(14, 'etudiant9@gmail.com', 'etudiant9', 'LOUVAT', 'MARIE', '4'),
+(15, 'etudiant10@gmail.com', 'etudiant10', 'GROUSSIN', 'ARTHUR', '4'),
+(16, 'etudiant11@gmail.com', 'etudiant11', 'DENIS', 'ALICE', '4'),
+(17, 'etudiant12@gmail.com', 'etudiant12', 'LEFEBVRE', 'FAUSTINE', '4');
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `enseignant`
+--
+ALTER TABLE `enseignant`
+  ADD CONSTRAINT `enseignant_ibfk_1` FOREIGN KEY (`#ID_UTILISATEUR`) REFERENCES `utilisateur` (`ID_UTILISATEUR`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `enseignant_ibfk_2` FOREIGN KEY (`#ID_COURS`) REFERENCES `cours` (`ID_COURS`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `etudiant`
+--
+ALTER TABLE `etudiant`
+  ADD CONSTRAINT `etudiant_ibfk_1` FOREIGN KEY (`#ID_UTILISATEUR`) REFERENCES `utilisateur` (`ID_UTILISATEUR`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `etudiant_ibfk_2` FOREIGN KEY (`#ID_GROUPE`) REFERENCES `groupe` (`ID_GROUPE`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `groupe`
+--
+ALTER TABLE `groupe`
+  ADD CONSTRAINT `groupe_ibfk_1` FOREIGN KEY (`#ID_PROMO`) REFERENCES `promotion` (`ID_PROMO`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `salle`
+--
+ALTER TABLE `salle`
+  ADD CONSTRAINT `salle_ibfk_1` FOREIGN KEY (`#ID_SITE`) REFERENCES `site` (`ID_SITE`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `seance`
+--
+ALTER TABLE `seance`
+  ADD CONSTRAINT `seance_ibfk_1` FOREIGN KEY (`#ID_COURS`) REFERENCES `cours` (`ID_COURS`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `seance_ibfk_2` FOREIGN KEY (`#ID_TYPE`) REFERENCES `type_cours` (`ID_TYPECRS`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `seance_enseignant`
+--
+ALTER TABLE `seance_enseignant`
+  ADD CONSTRAINT `seance_enseignant_ibfk_1` FOREIGN KEY (`#ID_ENSEIGNANT`) REFERENCES `enseignant` (`#ID_UTILISATEUR`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `seance_enseignant_ibfk_2` FOREIGN KEY (`#ID_SEANCE`) REFERENCES `seance` (`ID_SEANCE`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `seance_groupes`
+--
+ALTER TABLE `seance_groupes`
+  ADD CONSTRAINT `seance_groupes_ibfk_1` FOREIGN KEY (`#ID_GROUPE`) REFERENCES `groupe` (`ID_GROUPE`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `seance_groupes_ibfk_2` FOREIGN KEY (`#ID_SEANCE`) REFERENCES `seance` (`ID_SEANCE`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `seance_salles`
+--
+ALTER TABLE `seance_salles`
+  ADD CONSTRAINT `seance_salles_ibfk_1` FOREIGN KEY (`#ID_SALLE`) REFERENCES `salle` (`ID_SALLE`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `seance_salles_ibfk_2` FOREIGN KEY (`#ID_SEANCE`) REFERENCES `seance` (`ID_SEANCE`) ON DELETE RESTRICT ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
